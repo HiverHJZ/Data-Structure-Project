@@ -1,0 +1,210 @@
+import java.awt.RenderingHints.Key;
+import java.util.ArrayList;
+import java.util.PrimitiveIterator;
+
+public class KeywordList {
+	private ArrayList<Keyword> list;
+
+	public KeywordList() {
+		this.list = new ArrayList<>();
+	}
+
+	public void add(Keyword keyword) {
+
+		for (int i = 0; i < list.size(); i++) {
+			Keyword k = list.get(i);
+
+			if (k.count >= keyword.count) {
+				list.add(i, keyword);
+				System.out.println("Done");
+				return;
+			}
+		}
+
+		list.add(keyword);
+		System.out.println("Done");
+
+	}
+
+	public void outputIndex(int n) {
+		if (n >= list.size()) {
+			System.out.println("Invalid Oepration");
+			return;
+		}
+		ArrayList<Keyword> results = new ArrayList<>();
+		Keyword k = list.get(n);
+		results.add(k);
+
+		printKeywordList(results);
+	}
+
+	public void outputCount(int c) {
+		ArrayList<Keyword> results = new ArrayList<>();
+		for (int i = 0; i < list.size(); i++) {
+			Keyword k = list.get(i);
+
+			if (k.count == c) {
+				results.add(k);
+			}
+		}
+		if (results.isEmpty()) {
+			System.out.println("Not Found");
+		} else {
+			printKeywordList(results);
+		}
+	}
+
+	public void outputHas(String pattern) {
+		ArrayList<Keyword> results = new ArrayList<>();
+		for (int i = 0; i < list.size(); i++) {
+			Keyword k = list.get(i);
+
+			if (k.name.contains(pattern)) {
+				results.add(k);
+			}
+		}
+		if (results.isEmpty()) {
+			System.out.println("Not Found");
+		} else {
+			printKeywordList(results);
+		}
+	}
+
+	public void outputName(String name) {
+		ArrayList<Keyword> results = new ArrayList<>();
+		for (int i = 0; i < list.size(); i++) {
+			Keyword k = list.get(i);
+
+			if (k.name.equals(name)) {
+				results.add(k);
+			}
+		}
+		if (results.isEmpty()) {
+			System.out.println("Not Found");
+		} else {
+			printKeywordList(results);
+		}
+	}
+
+	public void outputFirstN(int n) {
+		if (n > list.size()) {
+			System.out.println("Invalid Operation");
+			return;
+		}
+		ArrayList<Keyword> results = new ArrayList<>();
+		for (int i = 0; i < n; i++) {
+			Keyword k = list.get(i);
+			results.add(k);
+		}
+
+		printKeywordList(results);
+	}
+
+	public void outputScore() {
+		// score = count * weight
+		double score = 0;
+		for (int i = 0; i < list.size(); i++) {
+			Keyword k = list.get(i);
+			score += ((double) k.count * k.weight);
+		}
+		System.out.println(score);
+	}
+
+	public void deletIndex(int n) {
+		if (n > list.size()) {
+			System.out.println("Invalid Operation");
+			return;
+		}
+
+		list.remove(n);
+		System.out.println("Done");
+	}
+
+	public void deletCount(int c) {
+		ArrayList<Keyword> found = new ArrayList<>();
+		for (int i = 0; i < list.size(); i++) {
+			Keyword k = list.get(i);
+
+			if (k.count == c) {
+				found.add(k);
+			}
+		}
+
+		if (found.isEmpty()) {
+			System.out.println("Not Found");
+		} else {
+			list.removeAll(found);
+			System.out.println("Done");
+		}
+	}
+
+	public void deletHas(String pattern) {
+		ArrayList<Keyword> found = new ArrayList<>();
+		for (int i = 0; i < list.size(); i++) {
+			Keyword k = list.get(i);
+
+			if (k.name.contains(pattern)) {
+				found.add(k);
+			}
+		}
+
+		if (found.isEmpty()) {
+			System.out.println("Not Found");
+		} else {
+			list.removeAll(found);
+			System.out.println("Done");
+		}
+
+	}
+
+	public void deletName(String name) {
+		ArrayList<Keyword> found = new ArrayList<>();
+		for (int i = 0; i < list.size(); i++) {
+			Keyword k = list.get(i);
+
+			if (k.name.equals(name)) {
+				found.add(k);
+			}
+		}
+
+		if (found.isEmpty()) {
+			System.out.println("Not Found");
+		} else {
+			list.removeAll(found);
+			System.out.println("Done");
+		}
+
+	}
+
+	public void deletFirstN(int n) {
+		if (n > list.size()) {
+			System.out.println("Invalid Operation");
+			return;
+		}
+
+		for (int i = 0; i < n; i++) {
+			list.remove(0);
+		}
+		System.out.println("Done");
+	}
+
+	public void deletALL() {
+		list.removeAll(list);
+	}
+
+	private void printKeywordList(ArrayList<Keyword> KList) {
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < KList.size(); i++) {
+			Keyword k = KList.get(i);
+
+			if ((i > 0)) {
+				sb.append(" ");
+			}
+			sb.append(k.toString());
+		}
+
+		System.out.println(sb.toString());
+
+	}
+}
